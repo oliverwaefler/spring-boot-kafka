@@ -21,32 +21,24 @@ class RestController(
 		private val logger = KotlinLogging.logger {}
 	}
 
-
-	@GetMapping("/test")
-	fun test(): String {
-		logger.info { "test" }
-		return "bla"
-	}
-
-	@PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE], value = ["/postJobQueue"])
-	fun postJobQueueKafka(@RequestBody myData: MyData) {
+	@PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE], value = ["/queue"])
+	fun postQueue(@RequestBody myData: MyData) {
 		val topicName = "topic_job_queue"
 		logger.debug { "Sending $myData to topic - $topicName" }
 		kafkaTemplate.send(topicName, Klaxon().toJsonString(myData))
 		logger.info { "Sent $myData to topic - $topicName" }
 	}
 
-	@PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE], value = ["/postPubSub"])
-	fun postPubSubKafka(@RequestBody myData: MyData) {
+	@PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE], value = ["/topic"])
+	fun postTopic(@RequestBody myData: MyData) {
 		val topicName = "topic_pubsub"
 		logger.debug { "Sending $myData to topic - $topicName" }
 		kafkaTemplate.send(topicName, Klaxon().toJsonString(myData))
 		logger.info { "Sent $myData to topic - $topicName" }
 	}
 
-	@PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE], value = ["/postRPC"])
-	@SendTo
-	fun postRPCKafka(@RequestBody myData: MyData) {
+	@PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE], value = ["/rpc"])
+	fun postRPC(@RequestBody myData: MyData) {
 		val topicName = "topic_rpc"
 		logger.debug { "Sending $myData to topic - $topicName" }
 		val request = ProducerRecord<String, String>(topicName, Klaxon().toJsonString(myData))

@@ -13,7 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>kafka</name>
-	<description>Apache Kafka</description>
+	<description>Apache Kafka Spring Boot</description>
 
 	<properties>
 		<java.version>11</java.version>
